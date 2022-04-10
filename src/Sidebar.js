@@ -1,19 +1,17 @@
 import DonutLargeIcon from '@mui/icons-material/DonutLarge';
 import ChatIcon from '@mui/icons-material/Chat';
 import SearchIcon from '@mui/icons-material/Search';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { Avatar, IconButton } from '@mui/material';
 import React, { useState, useEffect } from 'react'
 import './Sidebar.css';
 import SidebarChat from './SidebarChat';
 import db from './firebase';
-import { useStateValue } from "./StateProvider"
-
+import { Button } from "@mui/material"
 
 function Sidebar() {
+    const userData = JSON.parse(localStorage.getItem("auth"));
 
     const [rooms, setRooms] = useState([]);
-    const [{ user }, dispatch] = useStateValue();
 
     useEffect(() => {
         db.collection("rooms").onSnapshot(snapshot => (
@@ -27,12 +25,18 @@ function Sidebar() {
     }, [])
 
 
+    const handleLogout = () => {
+        localStorage.removeItem("auth");
+        localStorage.removeItem("token");
+        window.location.reload();
+    }
+
 
     return (
         <div>
             <div className="sidebar">
                 <div className="sidebar_header">
-                    <Avatar src={user?.photoURL} />
+                    <Avatar src={userData?.photoURL} />
                     <div className="sidebar_headerright">
                         <IconButton>
                             <DonutLargeIcon />
@@ -43,7 +47,9 @@ function Sidebar() {
                         </IconButton>
 
                         <IconButton>
-                            <MoreVertIcon />
+                            <Button type="submit" className="btn" onClick={handleLogout}>
+                                LOGOUT
+                            </Button>
                         </IconButton>
                     </div>
                 </div>

@@ -1,17 +1,26 @@
 import './App.css';
 import Sidebar from './Sidebar';
 import Chat from './Chat'
-// import React, { useState } from 'react'
+import React, { useState } from 'react'
 import Login from './Login';
-import { useStateValue } from "./StateProvider"
 
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
+import { useSelector, useDispatch } from "react-redux";
+import { userLogin } from "./Redux/action";
+
+
 function App() {
-  const [{ user }, dispatch] = useStateValue();
+
+
+  const dispatch = useDispatch();
+  const token = useSelector((store) => store.login.token);
+  const [userToken, setUserToken] = useState(token);
+  const localStorageToken = localStorage.getItem("token");
+  dispatch(userLogin(localStorageToken));
 
   return (
     <div className="App">
-      {!user ? (
+      {!userToken ? (
         <Login />
       ) : (
         <div className="app_body">
@@ -26,6 +35,7 @@ function App() {
               <Route path="/">
                 <Chat />
               </Route>
+              
 
             </Switch>
 
