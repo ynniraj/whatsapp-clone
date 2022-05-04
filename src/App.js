@@ -1,12 +1,10 @@
 import './App.css';
-import Sidebar from './Sidebar';
-import Chat from './Chat'
 import React, { useState } from 'react'
 import Login from './Login';
 
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
 import { useSelector, useDispatch } from "react-redux";
 import { userLogin } from "./Redux/action";
+import Routes from './Routes';
 
 
 function App() {
@@ -23,24 +21,7 @@ function App() {
       {!userToken ? (
         <Login />
       ) : (
-        <div className="app_body">
-
-          <Router>
-            <Sidebar />
-            <Switch>
-              <Route path="/rooms/:roomId">
-                <Chat />
-              </Route>
-
-              <Route path="/">
-                <Chat />
-              </Route>
-              
-
-            </Switch>
-
-          </Router>
-        </div>
+        <Routes />
       )}
 
     </div>

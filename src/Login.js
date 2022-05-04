@@ -2,17 +2,15 @@ import React from 'react'
 import "./login.css"
 import { Button } from "@mui/material"
 import { auth, provider } from './firebase'
-
+import { useHistory } from "react-router-dom"
 
 function Login() {
-
 
     const signIn = () => {
         auth.signInWithPopup(provider)
             .then((result) => {
                 localStorage.setItem("auth", JSON.stringify(result.user));
                 localStorage.setItem("token", JSON.stringify(result.user.uid));
-
                 window.location.reload()
             })
             .catch((error) => alert(error.message))
