@@ -7,9 +7,12 @@ import './Sidebar.css';
 import SidebarChat from './SidebarChat';
 import db from './firebase';
 import { Button } from "@mui/material"
+import { useDispatch } from "react-redux";
+import { userLogin } from "./Redux/action";
 
 function Sidebar() {
     const userData = JSON.parse(localStorage.getItem("auth"));
+    const dispatch = useDispatch();
 
     const [rooms, setRooms] = useState([]);
 
@@ -26,9 +29,9 @@ function Sidebar() {
 
 
     const handleLogout = () => {
-        localStorage.removeItem("auth");
-        localStorage.removeItem("token");
-        window.location.reload();
+        dispatch(userLogin({}));
+        localStorage.setItem("auth", "");
+        localStorage.setItem("token", "");
     }
 
 

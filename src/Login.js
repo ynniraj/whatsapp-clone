@@ -2,16 +2,19 @@ import React from 'react'
 import "./login.css"
 import { Button } from "@mui/material"
 import { auth, provider } from './firebase'
-import { useHistory } from "react-router-dom"
+import { useDispatch } from "react-redux";
+import { userLogin } from "./Redux/action";
 
 function Login() {
+    const dispatch = useDispatch();
 
     const signIn = () => {
         auth.signInWithPopup(provider)
             .then((result) => {
                 localStorage.setItem("auth", JSON.stringify(result.user));
                 localStorage.setItem("token", JSON.stringify(result.user.uid));
-                window.location.reload()
+                dispatch(userLogin(result.user.uid));
+
             })
             .catch((error) => alert(error.message))
     }

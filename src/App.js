@@ -11,14 +11,13 @@ function App() {
 
 
   const dispatch = useDispatch();
-  const token = useSelector((store) => store.login.token);
-  const [userToken, setUserToken] = useState(token);
   const localStorageToken = localStorage.getItem("token");
   dispatch(userLogin(localStorageToken));
+  const token = useSelector((store) => store.login.token);
 
   return (
     <div className="App">
-      {!userToken ? (
+      {!token ? (
         <Login />
       ) : (
         <Routes />
